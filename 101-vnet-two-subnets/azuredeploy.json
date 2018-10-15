@@ -55,7 +55,7 @@
     },
     {
       "apiVersion": "2018-06-01",
-      "type": "subnets",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
       "location": "[parameters('location')]",
       "name": "[concat(parameters('subnetNamePrefix'),copyIndex(1))]",
       "dependsOn": [
