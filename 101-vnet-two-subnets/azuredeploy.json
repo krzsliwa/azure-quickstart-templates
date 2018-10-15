@@ -50,7 +50,7 @@
       "apiVersion": "2018-06-01",
       "type": "Microsoft.Network/virtualNetworks/subnets",
       "location": "[parameters('location')]",
-      "name": "[concat(parameters('subnetNamePrefix'),copyIndex(1))]",
+      "name": "[concat(parameters('vnetName'),'/',parameters('subnetNamePrefix'),copyIndex(1))]",
       "dependsOn": [
         "[parameters('vnetName')]"
       ],
