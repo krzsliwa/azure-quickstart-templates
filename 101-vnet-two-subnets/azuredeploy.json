@@ -51,25 +51,23 @@
             "[parameters('vnetAddressPrefix')]"
           ]
         }
+      }
+    },
+    {
+      "apiVersion": "2018-06-01",
+      "type": "subnets",
+      "location": "[parameters('location')]",
+      "name": "[concat(parameters('subnetNamePrefix'),copyIndex(1))]",
+      "dependsOn": [
+        "[parameters('vnetName')]"
+      ],
+      "properties": {
+        "addressPrefix": "[parameters('subnetsPrefix')]"
       },
-      "resources": [
-        {
-          "apiVersion": "2018-06-01",
-          "type": "subnets",
-          "location": "[parameters('location')]",
-          "name": "[concat(parameters('subnetNamePrefix'),copyIndex(1))]",
-          "dependsOn": [
-            "[parameters('vnetName')]"
-          ],
-          "properties": {
-            "addressPrefix": "[parameters('subnetsPrefix')]"
-          },
-          "copy": {
-            "name": "subnetscopy",
-            "count": 2
-          }
-        }
-      ]
+      "copy": {
+        "name": "subnetscopy",
+        "count": 2
+      }
     }
   ]
 }
