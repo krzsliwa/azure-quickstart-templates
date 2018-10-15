@@ -16,13 +16,6 @@
         "description": "Address prefix"
       }
     },
-    "subnetsPrefix": {
-      "type": "string",
-      "defaultValue": "10.0.1.0/24",
-      "metadata": {
-        "description": "Subnet Prefix"
-      }
-    },
     "subnetNamePrefix": {
       "type": "string",
       "defaultValue": "ksSubnet",
@@ -62,7 +55,7 @@
         "[parameters('vnetName')]"
       ],
       "properties": {
-        "addressPrefix": "[parameters('subnetsPrefix')]"
+        "addressPrefix": "[concat('10.0.',copyIndex(),'.0/24')]"
       },
       "copy": {
         "name": "subnetscopy",
