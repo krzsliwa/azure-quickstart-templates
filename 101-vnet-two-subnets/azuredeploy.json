@@ -16,32 +16,18 @@
         "description": "Address prefix"
       }
     },
-    "subnet1Prefix": {
-      "type": "string",
-      "defaultValue": "10.0.0.0/24",
-      "metadata": {
-        "description": "Subnet 1 Prefix"
-      }
-    },
-    "subnet1Name": {
-      "type": "string",
-      "defaultValue": "ksSubnet1",
-      "metadata": {
-        "description": "Subnet 1 Name"
-      }
-    },
-    "subnet2Prefix": {
+    "subnetsPrefix": {
       "type": "string",
       "defaultValue": "10.0.1.0/24",
       "metadata": {
-        "description": "Subnet 2 Prefix"
+        "description": "Subnet Prefix"
       }
     },
-    "subnet2Name": {
+    "subnetNamePrefix": {
       "type": "string",
-      "defaultValue": "ksSubnet2",
+      "defaultValue": "ksSubnet",
       "metadata": {
-        "description": "Subnet 2 Name"
+        "description": "Subnet Name Prefix"
       }
     },
     "location": {
@@ -71,24 +57,16 @@
           "apiVersion": "2018-06-01",
           "type": "subnets",
           "location": "[parameters('location')]",
-          "name": "[parameters('subnet1Name')]",
+          "name": "[concat(parameters('subnetNamePrefix'),copyIndex(1))]",
           "dependsOn": [
             "[parameters('vnetName')]"
           ],
           "properties": {
-            "addressPrefix": "[parameters('subnet1Prefix')]"
-          }
-        },
-        {
-          "apiVersion": "2018-06-01",
-          "type": "subnets",
-          "location": "[parameters('location')]",
-          "name": "[parameters('subnet2Name')]",
-          "dependsOn": [
-            "[parameters('vnetName')]"
-          ],
-          "properties": {
-            "addressPrefix": "[parameters('subnet2Prefix')]"
+            "addressPrefix": "[parameters('subnetsPrefix')]"
+          },
+          "copy": {
+            "name": "subnetscopy",
+            "count": 2
           }
         }
       ]
