@@ -30,13 +30,6 @@
         "description": "Location for all resources."
       }
     }
-    ,
-    "dnsLabelPrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
-      }
-    }
   },
   "variables": {},
   "resources": [
@@ -77,7 +70,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+          "domainNameLabel": "ksw3"
         }
       }
     }
