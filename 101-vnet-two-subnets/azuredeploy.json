@@ -30,11 +30,18 @@
         "description": "Location for all resources."
       }
     }
+    ,
+    "dnsLabelPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+      }
+    }
   },
   "variables": {},
   "resources": [
     {
-      "apiVersion": "2018-06-01",
+      "apiVersion": "2017-06-01",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('vnetName')]",
       "location": "[parameters('location')]",
@@ -60,6 +67,18 @@
       "copy": {
         "name": "subnetscopy",
         "count": 2
+      }
+    },
+    {
+      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "ksPublicIPAddres",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+        }
       }
     }
   ]
