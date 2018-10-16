@@ -4,7 +4,7 @@
   "parameters": {
     "vnetName": {
       "type": "string",
-      "defaultValue": "ksVNet1",
+      "defaultValue": "ksVNet",
       "metadata": {
         "description": "VNet name"
       }
@@ -47,6 +47,18 @@
       }
     },
     {
+      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "ksPublicIPAddress",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "ksw3"
+        }
+      }
+    },
+    {
       "apiVersion": "2018-06-01",
       "type": "Microsoft.Network/virtualNetworks/subnets",
       "location": "[parameters('location')]",
@@ -60,19 +72,35 @@
       "copy": {
         "name": "subnetscopy",
         "count": 2
-      }
-    },
-    {
-      "apiVersion": "2016-03-30",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "ksPublicIPAddres",
-      "location": "[parameters('location')]",
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "ksw3"
+      },
+      "resources": [
+        {
+          "apiVersion": "2016-03-30",
+          "type": "Microsoft.Network/networkInterfaces",
+          "name": "ksNetworkInterface",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "ksPublicIPAddress",
+            "[parameters('vnetName')]"
+          ],
+          "properties": {
+            "ipConfigurations": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "publicIPAddress": {
+                    "id": "ksPublicIPAddress"
+                  },
+                  "subnet": {
+                    "id": "[concat(parameters('vnetName'),'/',parameters('subnetNamePrefix'),copyIndex(1))]"
+                  }
+                }
+              }
+            ]
+          }
         }
-      }
+      ]
     }
   ]
 }
